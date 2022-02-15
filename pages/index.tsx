@@ -26,7 +26,8 @@ const Home = ({ allProjectsFront, indexData }: HomeProps) => {
     <Layout home>
       <Head>
         <title>{siteTitle}</title>
-        <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+        {/* eslint-disable-next-line @next/next/no-sync-scripts */}
+        <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"/>
       </Head>
 
       <Center>
