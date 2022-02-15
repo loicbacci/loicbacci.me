@@ -5,9 +5,9 @@ description: Personal website to show my projects
 
 This website is created using Typescript, React and NextJS.
 
-It uses TailwindCSS as a CSS framework.
+It uses Chakra UI as a UI framework.
 
 Hosted on Netlify.
 
-[→ Source (GitHub)](https://github.com/loicbacciga/nextjs-site)
+[→ Source (GitHub)](https://github.com/loicbacciga/loicbacci.me)
 
