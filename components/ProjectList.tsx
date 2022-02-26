@@ -2,17 +2,13 @@ import { List } from '@chakra-ui/react';
 import MyListItem from './MyListItem';
 
 interface ProjectListProps {
-  allProjectsFront: {
-    title: string
-    description: string
-    slug: string
-  }[],
+  projectsMeta: ProjectMeta[]
 }
 
-const ProjectList = ({ allProjectsFront }: ProjectListProps) => {
+const ProjectList = ({ projectsMeta }: ProjectListProps) => {
   return (
     <List spacing={3}>
-      {allProjectsFront.map(({ slug, title, description }) => {
+      {projectsMeta.map(({ slug, title, description }) => {
         const href = `/projects/${slug}`;
 
         return (

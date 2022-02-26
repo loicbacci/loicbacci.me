@@ -1,38 +1,32 @@
 import Head from 'next/head'
 import Layout from '../components/Layout'
-import { getProjectsFrontMatter } from '../lib/projects'
-import { getIndexData } from '../lib/index'
-import NLink from 'next/link'
 import { GetStaticProps } from 'next'
 import ProjectList from '../components/ProjectList'
 import { siteTitle } from '../lib/constants'
-import { Box, Center, Flex, Heading, HStack, Link, List, ListIcon, ListItem, Stack, Text } from '@chakra-ui/react';
-import { FiArrowRight, FiGithub } from 'react-icons/fi';
-import { useProcessor } from '../lib/useProcessor';
-import MyListItem from '../components/MyListItem';
-import GitHubLink from '../components/GitHubLink';
+import { Box, Center, Heading, List, Stack } from '@chakra-ui/react';
+import { getAllProjectsMeta, getHomeLinks, getIndexInfo } from '../lib/api';
+import { PortableText } from '@portabletext/react';
+import React from 'react';
+import HomeLink from '../components/HomeLink';
 
 interface HomeProps {
-  allProjectsFront: FrontMatter[],
-  indexData: {
-    contentHtml: string
-  }
+  projectsMeta: ProjectMeta[],
+  indexInfo: any,
+  homeLinks: IHomeLink[]
 }
 
-const Home = ({ allProjectsFront, indexData }: HomeProps) => {
-  const Content = useProcessor(indexData.contentHtml);
+const Home = ({ projectsMeta, indexInfo, homeLinks }: HomeProps) => {
+  console.log(projectsMeta);
 
   return (
     <Layout home>
       <Head>
         <title>{siteTitle}</title>
-        {/* eslint-disable-next-line @next/next/no-sync-scripts */}
-        <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"/>
       </Head>
 
       <Center>
         <Box style={{ textAlign: "center" }}>
-          {Content}
+          <PortableText value={indexInfo} />
         </Box>
       </Center>
 
@@ -41,13 +35,13 @@ const Home = ({ allProjectsFront, indexData }: HomeProps) => {
           <Heading as="h2" color="primary" pb={2}>Links</Heading>
 
           <List>
-            <GitHubLink />
+            {homeLinks.map((link, i) => <HomeLink link={link} key={i} />)}
           </List>
         </Stack>
 
         <Stack>
           <Heading as="h2" pb={2}>Projects</Heading>
-          <ProjectList allProjectsFront={allProjectsFront} />
+          <ProjectList projectsMeta={projectsMeta} />
         </Stack>
       </Stack>
     </Layout>
@@ -55,14 +49,16 @@ const Home = ({ allProjectsFront, indexData }: HomeProps) => {
 }
 
 export const getStaticProps: GetStaticProps = async () => {
-  const allProjectsFront = getProjectsFrontMatter()
-  const indexData = await getIndexData()
+  const projectsMeta = await getAllProjectsMeta();
+  const indexInfo = await getIndexInfo();
+  const homeLinks = await getHomeLinks();
+
   return {
     props: {
-      allProjectsFront,
-      indexData
-    }
+      projectsMeta, indexInfo, homeLinks
+    },
+    revalidate: 1
   }
 }
 
-export default Home
+export default Home;

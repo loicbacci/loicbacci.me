@@ -1,33 +1,16 @@
 import Layout from '../../components/Layout'
-import { getAllProjectsSlugs, getProjectData } from '../../lib/projects'
 import Head from 'next/head'
-import { GetStaticProps, GetStaticPaths } from 'next'
-import { Heading, Stack } from '@chakra-ui/react';
-import { useEffect } from 'react';
-import { useProcessor } from '../../lib/useProcessor';
+import { GetStaticPaths, GetStaticProps } from 'next'
+import { Stack } from '@chakra-ui/react';
+import { getAllPostsWithSlug, getProject } from '../../lib/api';
+import { PortableText } from '@portabletext/react';
+import HeadingH1 from '../../components/base/HeadingH1';
 
 interface ProjectProps {
-  projectData: {
-    id: string
-    title: string
-    date: string
-    contentHtml: string
-  }
+  projectData: ProjectData
 }
 
 const Project = ({ projectData }: ProjectProps) => {
-  const { id, title, date, contentHtml } = projectData;
-
-  const Content = useProcessor(contentHtml);
-
-  useEffect(() => {
-    const ps = document.getElementsByName("p");
-
-    ps.forEach((elem, key) => {
-      elem.textContent = "nope";
-    });
-  }, []);
-
   return (
     <Layout>
       <Head>
@@ -35,32 +18,40 @@ const Project = ({ projectData }: ProjectProps) => {
       </Head>
 
       <article>
-        <Stack spacing={4} pt={4}>
-          <Heading as="h1">{projectData.title}</Heading>
+        <Stack spacing={6} pt={6}>
+          <HeadingH1>{projectData.title}</HeadingH1>
 
-          {Content}
+          <Stack spacing={1.5}>
+            <PortableText value={projectData.body} />
+          </Stack>
         </Stack>
       </article>
-
     </Layout>
   )
 }
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  const paths = getAllProjectsSlugs()
+  const allPosts = await getAllPostsWithSlug()
   return {
-    paths,
-    fallback: false
+    paths:
+      allPosts?.map((post: any) => ({
+        params: {
+          slug: post.slug,
+        },
+      })) || [],
+    fallback: true,
   }
 }
 
 export const getStaticProps: GetStaticProps = async ({ params }) => {
-  const projectData = await getProjectData(params?.slug as string)
+  const slug = params?.slug || "";
+  const data = await getProject(slug);
   return {
     props: {
-      projectData
-    }
+      projectData: data,
+    },
+    revalidate: 1
   }
 }
 
-export default Project
+export default Project;

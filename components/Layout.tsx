@@ -1,4 +1,3 @@
-import utilStyles from '../styles/utils.module.css'
 import Header from './Header'
 import BasicHead from './BasicHead'
 import { Container, Stack } from '@chakra-ui/react';
