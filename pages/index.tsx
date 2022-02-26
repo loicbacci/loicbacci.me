@@ -16,8 +16,6 @@ interface HomeProps {
 }
 
 const Home = ({ projectsMeta, indexInfo, homeLinks }: HomeProps) => {
-  console.log(projectsMeta);
-
   return (
     <Layout home>
       <Head>

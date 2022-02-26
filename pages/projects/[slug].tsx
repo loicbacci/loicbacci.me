@@ -14,15 +14,15 @@ const Project = ({ projectData }: ProjectProps) => {
   return (
     <Layout>
       <Head>
-        <title>{projectData.title}</title>
+        <title>{projectData?.title}</title>
       </Head>
 
       <article>
         <Stack spacing={6} pt={6}>
-          <HeadingH1>{projectData.title}</HeadingH1>
+          <HeadingH1>{projectData?.title}</HeadingH1>
 
           <Stack spacing={1.5}>
-            <PortableText value={projectData.body} />
+            <PortableText value={projectData?.body} />
           </Stack>
         </Stack>
       </article>
@@ -31,7 +31,7 @@ const Project = ({ projectData }: ProjectProps) => {
 }
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  const allPosts = await getAllPostsWithSlug()
+  const allPosts = await getAllPostsWithSlug();
   return {
     paths:
       allPosts?.map((post: any) => ({

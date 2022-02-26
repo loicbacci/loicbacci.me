@@ -11,11 +11,13 @@ export async function getAllPostsWithSlug() {
 }
 
 export async function getProject(slug: any) {
-  return await client.fetch(
+  const p =  await client.fetch(
     `*[_type == "project" && slug.current == $slug]`,
     { slug }
   )
-    .then((res: any) => res?.[0]) as ProjectData;
+    .then((res: any) => res?.[0]);
+
+  return p as ProjectData;
 }
 
 export const getIndexInfo = async () => {
