@@ -19,7 +19,7 @@ interface ProjectMeta {
 
 interface ProjectData extends ProjectMeta {
   body: any,
-  links: Link[]
+  links?: Link[]
 }
 
 interface Link {

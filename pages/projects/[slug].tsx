@@ -27,7 +27,7 @@ const Project = ({ projectData}: ProjectProps) => {
         </div>
 
         <div className="flex gap-6 flex-wrap">
-          {projectData.links && projectData.links.map((l, i) => {
+          {projectData?.links && projectData?.links.map((l, i) => {
             // @ts-ignore
             const Icon = l.icon && Icons[l.icon.name]
             console.log(Icon)
