@@ -1,5 +1,5 @@
 export default {
-  title: "Project",
+  title: "Projects",
   name: "project",
 
   type: "document",
@@ -28,6 +28,12 @@ export default {
       name: 'body',
       title: 'Body',
       type: 'blockContent',
+    },
+    {
+      title: "Links",
+      name: "links",
+      type: "array",
+      of: [{ type: "link" }]
     }
   ]
 }

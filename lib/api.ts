@@ -22,9 +22,16 @@ export async function getProject(slug: any) {
 
 export const getIndexInfo = async () => {
   return await client.fetch(
-    `*[_type == "index-info"]{ content }`
+    `*[_type == "index-info"]{ content, links, "profileUrl": profile.asset->url }`
   )
-    .then((res: any) => res?.[0].content);
+    .then((res: any) => res?.[0]) as IndexInfo;
+}
+
+export const getProfileUrl = async () => {
+  return await client.fetch(
+    `*[_type == "index-info"]{ "profileUrl": profile.asset->url }`
+  )
+    .then((res: any) => res?.[0].profileUrl) as string;
 }
 
 export const getHomeLinks = async () => {

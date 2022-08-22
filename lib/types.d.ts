@@ -18,7 +18,14 @@ interface ProjectMeta {
 }
 
 interface ProjectData extends ProjectMeta {
-  body: any
+  body: any,
+  links: Link[]
+}
+
+interface Link {
+  text: string,
+  url: string,
+  icon: any
 }
 
 interface IHomeLink {
@@ -26,3 +33,8 @@ interface IHomeLink {
   link: string
 }
 
+interface IndexInfo {
+  content: any,
+  links: Link[],
+  profileUrl: string
+}

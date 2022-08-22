@@ -1,37 +1,45 @@
 import NLink from 'next/link'
+import NImage from "next/image";
 import { name } from '../lib/constants'
-import { Heading, Image, Link, useColorMode, VStack } from '@chakra-ui/react';
-import { primary } from '../lib/colors';
+import { VStack } from '@chakra-ui/react';
+import { useEffect, useState } from "react";
+import { getProfileUrl } from "../lib/api";
 
 interface HeaderProps {
   home?: boolean
 }
 
 const Header = ({ home }: HeaderProps) => {
-  const { colorMode } = useColorMode();
+  const [profileUrl, setProfileUrl] = useState(null as string | null);
+
+  useEffect(() => {
+    getProfileUrl().then(setProfileUrl)
+  }, []);
+
+  console.log(profileUrl);
 
   const title = (
-    <Heading as="h1" size="2xl" fontWeight="bold">
+    <h1 className="text-4xl lg:text-5xl font-bold">
       {name}
-    </Heading>
+    </h1>
   );
 
   return (
     <VStack spacing={4}>
-      <Image
-        borderRadius="full"
-        boxSize={{ base: "50%", sm: '30%' }}
-        src="/images/profile.jpg"
-        alt="Profile picture"
-      />
+      <div className="w-40 lg:w-48 h-40 lg:h-48 relative">
+        {profileUrl && <NImage className="rounded-full" src={profileUrl} layout="fill" objectFit="cover"/>}
+      </div>
 
       {home
         ? title
         : (
           <NLink href="/" passHref>
-            <Link color={primary(colorMode)}>
-              {title}
-            </Link>
+            <a>
+              <h1 className={"text-4xl lg:text-5xl font-bold primary-text"}>
+                {name}
+              </h1>
+            </a>
+            
           </NLink>
         )
       }

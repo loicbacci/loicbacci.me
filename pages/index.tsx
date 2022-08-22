@@ -7,15 +7,17 @@ import { Box, Center, Heading, List, Stack } from '@chakra-ui/react';
 import { getAllProjectsMeta, getHomeLinks, getIndexInfo } from '../lib/api';
 import { PortableText } from '@portabletext/react';
 import React from 'react';
+import { FiGithub } from "react-icons/fi";
 import HomeLink from '../components/HomeLink';
+import Link from 'next/link'
+import * as Icons from "react-icons/fi";
 
 interface HomeProps {
   projectsMeta: ProjectMeta[],
-  indexInfo: any,
-  homeLinks: IHomeLink[]
+  indexInfo: IndexInfo
 }
 
-const Home = ({ projectsMeta, indexInfo, homeLinks }: HomeProps) => {
+const Home = ({ projectsMeta, indexInfo }: HomeProps) => {
   return (
     <Layout home>
       <Head>
@@ -24,24 +26,38 @@ const Home = ({ projectsMeta, indexInfo, homeLinks }: HomeProps) => {
 
       <Center>
         <Box style={{ textAlign: "center" }}>
-          <PortableText value={indexInfo} />
+          <PortableText value={indexInfo.content} />
         </Box>
       </Center>
 
-      <Stack spacing={8}>
-        <Stack>
-          <Heading as="h2" color="primary" pb={2}>Links</Heading>
-
-          <List>
-            {homeLinks.map((link, i) => <HomeLink link={link} key={i} />)}
-          </List>
-        </Stack>
-
-        <Stack>
-          <Heading as="h2" pb={2}>Projects</Heading>
+      <div className="flex flex-col space-y-8 pt-4">
+        <section className="flex flex-col space-y-2">
+          <h2 className="pb-2">Projects</h2>
           <ProjectList projectsMeta={projectsMeta} />
-        </Stack>
-      </Stack>
+        </section>
+
+        <section className="flex flex-col space-y-2">
+          <h2>Links</h2>
+
+
+
+          <div className="flex gap-6 flex-wrap">
+            {indexInfo.links && indexInfo.links.map((l, i) => {
+              // @ts-ignore
+              const Icon = l.icon && Icons[l.icon.name]
+              console.log(Icon)
+              return (
+                <Link href={l.url} key={i}>
+                  <a className="icon-link">
+                    {l.icon && <Icon className="m-auto"/>}
+                    <span>{l.text}</span>
+                  </a>
+                </Link>
+              )
+            })}
+          </div>
+        </section>
+      </div>
     </Layout>
   )
 }
@@ -49,11 +65,10 @@ const Home = ({ projectsMeta, indexInfo, homeLinks }: HomeProps) => {
 export const getStaticProps: GetStaticProps = async () => {
   const projectsMeta = await getAllProjectsMeta();
   const indexInfo = await getIndexInfo();
-  const homeLinks = await getHomeLinks();
 
   return {
     props: {
-      projectsMeta, indexInfo, homeLinks
+      projectsMeta, indexInfo
     },
     revalidate: 1
   }

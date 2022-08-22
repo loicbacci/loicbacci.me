@@ -10,23 +10,23 @@ interface LayoutProps {
 
 const Layout = ({ children, home, noHeader }: LayoutProps) => {
   return (
-    <Container py={6} mb={10}>
+    <div className="container py-6 mb-10 mx-auto px-4">
       <BasicHead />
 
       <Stack>
         {!noHeader ?
-          home ? <Header home /> : <Header /> :
+          home ? <Header home  /> : <Header  /> :
           ''
         }
 
-        <main>
-          <Stack>
+        <main className="pt-4">
+          <div className="flex flex-col space-y-2">
             {children}
-          </Stack>
+          </div>
         </main>
       </Stack>
 
-    </Container>
+    </div>
   )
 }
 
