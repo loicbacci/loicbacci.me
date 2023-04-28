@@ -1,20 +1,20 @@
-import Layout from "../../components/Layout";
-import Head from "next/head";
-import { GetStaticPaths, GetStaticProps } from "next";
-import { Stack } from "@chakra-ui/react";
-import { getAllPostsWithSlug, getProfileUrl, getProject } from "../../lib/api";
-import { PortableText } from "@portabletext/react";
-import HeadingH1 from "../../components/base/HeadingH1";
-import * as Icons from "react-icons/fi";
-import Link from "next/link";
+import Head from 'next/head';
+import { GetStaticPaths, GetStaticProps } from 'next';
+import { PortableText } from '@portabletext/react';
+import * as Icons from 'react-icons/fi';
+import Link from 'next/link';
+import React from 'react';
+import { getAllPostsWithSlug, getProfileUrl, getProject } from '../../lib/api';
+import Layout from '../../components/Layout';
 
 interface ProjectProps {
   projectData: ProjectData
+  profileUrl: string
 }
 
-const Project = ({ projectData}: ProjectProps) => {
+function Project({ projectData, profileUrl }: ProjectProps) {
   return (
-    <Layout >
+    <Layout profileUrl={profileUrl}>
       <Head>
         <title>{projectData?.title}</title>
       </Head>
@@ -27,24 +27,23 @@ const Project = ({ projectData}: ProjectProps) => {
         </div>
 
         <div className="flex gap-6 flex-wrap">
-          {projectData?.links && projectData?.links.map((l, i) => {
+          {projectData?.links && projectData?.links.map((l) => {
             // @ts-ignore
-            const Icon = l.icon && Icons[l.icon.name]
-            console.log(Icon)
+            const Icon = l.icon && Icons[l.icon.name];
             return (
-              <Link href={l.url} key={i}>
-                <a className="icon-link">
-                  {l.icon && <Icon className="m-auto"/>}
+              <Link href={l.url} key={l.url}>
+                <div className="icon-link">
+                  {l.icon && <Icon className="m-auto" />}
                   <span>{l.text}</span>
-                </a>
+                </div>
               </Link>
-            )
+            );
           })}
         </div>
       </article>
     </Layout>
   );
-};
+}
 
 export const getStaticPaths: GetStaticPaths = async () => {
   const allPosts = await getAllPostsWithSlug();
@@ -60,12 +59,14 @@ export const getStaticPaths: GetStaticPaths = async () => {
 };
 
 export const getStaticProps: GetStaticProps = async ({ params }) => {
-  const slug = params?.slug || "";
+  const slug = params?.slug || '';
   const data = await getProject(slug);
+  const profileUrl = await getProfileUrl();
 
   return {
     props: {
-      projectData: data
+      projectData: data,
+      profileUrl,
     },
     revalidate: 1,
   };

@@ -1,59 +1,32 @@
-import "../styles/globals.css";
-import type { AppProps } from "next/app";
-import { ChakraProvider, Image, Text } from "@chakra-ui/react";
-import theme from "../theme";
-import { PortableTextComponentsProvider } from "@portabletext/react";
-import React from "react";
-import MyLink from "../components/base/MyLink";
-import HeadingH1 from "../components/base/HeadingH1";
-import HeadingH2 from "../components/base/HeadingH2";
-import HeadingH3 from "../components/base/HeadingH3";
-import { getImageUrlFromRef } from "../lib/api";
+import type { AppProps } from 'next/app';
+import { ChakraProvider, Image } from '@chakra-ui/react';
+import { PortableTextComponentsProvider } from '@portabletext/react';
+import React from 'react';
+import { getImageUrlFromRef } from '../lib/api';
+import '../styles/globals.css';
 
-const D = () => {
-  return <div className="py-1"/>
-}
+const D = () => <div className="py-1" />;
 
 const comps = {
-  /*marks: {
-    link: ({value, children}: any) => (
-      <MyLink href={value?.href}>
-        {children}
-      </MyLink>
-    )
-  },
-  block: {
-    h1: HeadingH1,
-    h2: HeadingH2,
-    h3: HeadingH3,
-    normal: Text
-  },*/
   marks: {
-    br: D
+    br: D,
   },
   types: {
     image: ({ value }: any) => {
+      // eslint-disable-next-line no-underscore-dangle
       const url = getImageUrlFromRef(value?.asset._ref);
       return <Image src={url} objectFit="contain" />;
     },
   },
 };
-/*
-https://cdn.sanity.io/images/w3vejcsi/production/image-3692cd78f17753135c7ec8abbd7770f7547b97b8-2294x1600-png
-https://cdn.sanity.io/images/w3vejcsi/production/3692cd78f17753135c7ec8abbd7770f7547b97b8-2294x1600.png
- */
 
 function MyApp({ Component, pageProps }: AppProps) {
-  // return (
-  //   <ChakraProvider theme={theme}>
-  //     {/*<PortableTextComponentsProvider components={comps}>*/}
-  //       <Component {...pageProps} />
-  //     {/*</PortableTextComponentsProvider>*/}
-  //   </ChakraProvider>
-  // )
   return (
     <PortableTextComponentsProvider components={comps}>
-      <Component {...pageProps} />
+      <ChakraProvider resetCSS={false}>
+        {/* eslint-disable-next-line react/jsx-props-no-spreading */}
+        <Component {...pageProps} />
+      </ChakraProvider>
     </PortableTextComponentsProvider>
   );
 }

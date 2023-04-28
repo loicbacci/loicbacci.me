@@ -1,5 +1,4 @@
 import { ColorMode } from '@chakra-ui/react';
 
-export const primary = (colorMode: ColorMode) => {
-  return colorMode === "dark" ? "primary_dark" : "primary_light";
-}
+// eslint-disable-next-line import/prefer-default-export
+export const primary = (colorMode: ColorMode) => (colorMode === 'dark' ? 'primary_dark' : 'primary_light');

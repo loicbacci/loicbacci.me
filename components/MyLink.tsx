@@ -1,15 +1,17 @@
 import React from 'react';
-import { HStack, Link, ListIcon, useColorMode } from '@chakra-ui/react';
+import {
+  HStack, Link, ListIcon, useColorMode,
+} from '@chakra-ui/react';
 import NLink from 'next/link';
-import { primary } from '../../lib/colors';
 import { FiArrowRight } from 'react-icons/fi';
+import { primary } from '../lib/colors';
 
-const MyLink = ({ href, showArrow, ...props}: any) => {
+const MyLink = ({ href, showArrow, ...props }: any) => {
   const { colorMode } = useColorMode();
 
   const link = (
     <NLink href={href} passHref>
-      <Link {...props} color={primary(colorMode)}/>
+      <Link {...props} color={primary(colorMode)} />
     </NLink>
   );
 
@@ -19,7 +21,7 @@ const MyLink = ({ href, showArrow, ...props}: any) => {
         <ListIcon as={FiArrowRight} />
         {link}
       </HStack>
-    )
+    );
   }
 
   return link;

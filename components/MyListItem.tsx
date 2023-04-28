@@ -1,5 +1,6 @@
 import { ListItem, Stack, Text } from '@chakra-ui/react';
-import MyLink from './base/MyLink';
+import React from 'react';
+import MyLink from './MyLink';
 
 interface MyListItemProps {
   title: React.ReactNode,
@@ -7,19 +8,17 @@ interface MyListItemProps {
   href: string
 }
 
-const MyListItem = ({ title, description, href }: MyListItemProps) => {
-  return (
-    <ListItem>
-      <Stack spacing={0}>
-        <MyLink href={href} showArrow>
-          {title}
-        </MyLink>
+const MyListItem = ({ title, description, href }: MyListItemProps) => (
+  <ListItem>
+    <Stack spacing={0}>
+      <MyLink href={href} showArrow>
+        {title}
+      </MyLink>
 
-        {description && <Text>{description}</Text>}
-      </Stack>
+      {description && <Text>{description}</Text>}
+    </Stack>
 
-    </ListItem>
-  )
-}
+  </ListItem>
+);
 
 export default MyListItem;

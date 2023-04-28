@@ -23,6 +23,11 @@ export default {
       name: "url",
       type: "string"
     },
+    {
+      title: "In header",
+      name: "inHeader",
+      type: "boolean"
+    }
   ],
   preview: {
     select: {

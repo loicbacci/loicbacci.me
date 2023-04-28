@@ -1,7 +1,6 @@
 import React from 'react';
+import { Text } from '@chakra-ui/react';
 import MyListItem from './MyListItem';
-import { Box, Center, Heading, HStack, List, Stack, Text } from '@chakra-ui/react';
-
 
 interface HomeLinkProps {
   link: IHomeLink
@@ -14,7 +13,7 @@ const HomeLink = (props: HomeLinkProps) => {
     <Text>
       {link.title}
     </Text>
-  )
+  );
 
   return (
     <MyListItem

@@ -3,11 +3,11 @@ interface FileFrontMatter {
   description: string
 }
 
-interface FrontMatter extends FileFrontMatter{
+interface FrontMatter extends FileFrontMatter {
   slug: string
 }
 
-interface Data extends FrontMatter{
+interface Data extends FrontMatter {
   contentHtml: string
 }
 
@@ -25,7 +25,8 @@ interface ProjectData extends ProjectMeta {
 interface Link {
   text: string,
   url: string,
-  icon: any
+  icon: any,
+  inHeader: boolean
 }
 
 interface IHomeLink {
