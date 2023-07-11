@@ -80,7 +80,6 @@ function Home({ projectsMeta, indexInfo }: HomeProps) {
           </section>
         )}
       </div>
-      
     </Layout>
   );
 }
