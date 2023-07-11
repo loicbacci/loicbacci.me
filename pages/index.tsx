@@ -22,7 +22,7 @@ function Home({ projectsMeta, indexInfo }: HomeProps) {
   const notHeaderLinks = indexInfo.links.filter((l) => !l.inHeader);
 
   return (
-    <Layout home profileUrl={indexInfo.profileUrl}>
+    <Layout home profileUrl={`${indexInfo.profileUrl}?h=500`}>
       <Head>
         <title>{siteTitle}</title>
       </Head>
@@ -80,6 +80,7 @@ function Home({ projectsMeta, indexInfo }: HomeProps) {
           </section>
         )}
       </div>
+      
     </Layout>
   );
 }
